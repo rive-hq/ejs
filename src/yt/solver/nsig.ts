@@ -68,6 +68,11 @@ const asdasd: DeepPartial<ESTree.ExpressionStatement> = {
 export function extract(
   node: ESTree.Node,
 ): ESTree.ArrowFunctionExpression | null {
+  const t = node.type;
+  if (t !== "ExpressionStatement" && t !== "FunctionDeclaration" && t !== "VariableDeclaration") {
+    return null;
+  }
+
   if (!matchesStructure(node, identifier)) {
     return null;
   }
