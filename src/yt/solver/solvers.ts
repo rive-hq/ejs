@@ -1,7 +1,7 @@
 import { type ESTree, parse } from "meriyah";
 import { generate } from "astring";
 import { extract } from "./nsig.ts";
-import { setupNodes } from "./setup.ts";
+import { setupCode } from "./setup.ts";
 import { generateArrowFunction } from "../../utils.ts";
 
 export function preprocessPlayer(data: string): string {
@@ -32,8 +32,7 @@ export function preprocessPlayer(data: string): string {
     });
   }
 
-  program.body.splice(0, 0, ...setupNodes);
-  return generate(program);
+  return setupCode + "\n" + generate(program);
 }
 
 export function modifyPlayer(program: ESTree.Program) {
@@ -61,7 +60,6 @@ export function modifyPlayer(program: ESTree.Program) {
           func.expression.callee.type === "FunctionExpression"
         ) {
           const block = func.expression.callee.body;
-          // Skip `var window = this;`
           block.body.splice(0, 1);
           return block;
         }
@@ -106,6 +104,8 @@ export function getSolutions(
           name: "sig",
         }),
       );
+      
+      break;
     }
   }
   return found;
