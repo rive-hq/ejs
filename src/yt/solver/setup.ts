@@ -1,4 +1,5 @@
 import { parse } from "meriyah";
+import { generate } from "astring";
 
 export const setupNodes = parse(`
 if (typeof globalThis.XMLHttpRequest === "undefined") {
@@ -34,3 +35,5 @@ if (typeof globalThis.window === "undefined") {
     globalThis.window = globalThis;
 }
 `).body;
+
+export const setupCode = generate({ type: "Program", body: setupNodes, sourceType: "script" } as ReturnType<typeof parse>);
