@@ -41,7 +41,6 @@ const identifier: DeepPartial<ESTree.Node> = {
   ],
 } as const;
 
-// Matches: something.method("alr", "yes")  — standard player_ias pattern
 const asdasd: DeepPartial<ESTree.ExpressionStatement> = {
   type: "ExpressionStatement",
   expression: {
@@ -63,50 +62,6 @@ const asdasd: DeepPartial<ESTree.ExpressionStatement> = {
       },
     ],
     optional: false,
-  },
-};
-
-const asdasd2: DeepPartial<ESTree.ExpressionStatement> = {
-  type: "ExpressionStatement",
-  expression: {
-    type: "LogicalExpression",
-    operator: "||",
-    left: {
-      type: "CallExpression",
-      callee: {
-        type: "MemberExpression",
-        object: { type: "Identifier" },
-        property: {},
-        optional: false,
-      },
-      arguments: [
-        {
-          type: "Literal",
-          value: "alr",
-        },
-      ],
-      optional: false,
-    },
-    right: {
-      type: "CallExpression",
-      callee: {
-        type: "MemberExpression",
-        object: { type: "Identifier" },
-        property: {},
-        optional: false,
-      },
-      arguments: [
-        {
-          type: "Literal",
-          value: "alr",
-        },
-        {
-          type: "Literal",
-          value: "yes",
-        },
-      ],
-      optional: false,
-    },
   },
 };
 
@@ -156,10 +111,7 @@ export function extract(
   }
 
   for (const { name, statements } of options) {
-    if (
-      matchesStructure(statements, { anykey: [asdasd] }) ||
-      matchesStructure(statements, { anykey: [asdasd2] })
-    ) {
+    if (matchesStructure(statements, { anykey: [asdasd] })) {
       return createSolver(name);
     }
   }
